@@ -1,3 +1,4 @@
 mkdocstrings[python]  # For api pages
 mkdocs-material  # For the theme
 pymdown-extensions  # For syntax highlighting
+git+https://github.com/mohrez86/pyllmut
