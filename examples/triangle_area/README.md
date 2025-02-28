@@ -2,8 +2,8 @@
 
 This directory contains an 
 example project to demonstrate 
-the use of LLMutPy.
+the use of PyLLMut.
 
-For step by step instructions on how to use
-LLMutPy with this example, refer to 
-[Quick Start Guide](https://llmutpy.readthedocs.io/user/start).
+For step-by-step instructions on how to use
+PyLLMut with this example, refer to 
+[Quick Start Guide](https://pyllmut.readthedocs.io/user/start).
