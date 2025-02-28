@@ -1,0 +1,4 @@
+pytest
+openai~=1.58.1
+mkdocs
+black

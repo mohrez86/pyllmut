@@ -1,0 +1,48 @@
+site_name: PyLLMut
+
+nav:
+  - Home: index.md
+  - User Guide:
+      - Installation: user/install.md
+      - Quick Start: user/start.md
+  - API Reference:
+      - Mutant Generator: api/generator.md
+      - Mutation Report: api/mutation_report.md
+      - Mutant Info: api/mutant_info.md
+      - Mutant Type (Enum): api/mutant_type.md
+
+
+#theme: readthedocs
+theme:
+  name: material
+  features:
+    - navigation.footer
+    - navigation.tabs
+    - navigation.instant
+    - navigation.sections  # Adds collapsible sub-sections in the sidebar
+#    - toc.integrate  # Moves the table of contents to the sidebar
+    - content.code.copy
+#    - content.code.annotate  # Adds code annotation tooltips
+#    - content.action.edit  # Adds an "Edit this page" button if using GitHub/GitLab
+
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - admonition
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            show_source: true  # Hide source code links
+            show_root_heading: true  # Show the class/module heading
+            show_if_no_docstring: true  # Show members even if they lack docstrings
+            docstring_style: google  # Format docstrings using Google style
+            show_submodules: true  # Show submodules of the package
+            show_bases: true  # Show base classes of the class
+            inherited_members: true  # Show inherited methods from parent classes
+            members_order: alphabetical  # Order members alphabetically
+            group_by_category: true  # Group members (methods, attributes)

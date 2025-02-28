@@ -1,0 +1,48 @@
+$context_code
+
+Above is the original code. your task is to generate $number_of_mutants mutants in original code(notice:mutant refers to mutant in software engineering, i.e. making subtle alterations to the original code) in :
+
+$code_line_to_be_mutated
+
+as follows are some examples of mutants which you can refer to:
+    {
+    "precode": "n = (n & (n - 1));",
+    "aftercode": " n = (n ^ (n - 1));"
+    },
+    {
+    "precode": "  while (!queue.isEmpty()) {",
+    "aftercode": " while (true) { "
+    },
+    {
+    "precode": "return depth==0;",
+    "aftercode": "return true;"
+    },
+    {
+    "precode": "ArrayList r = new
+    ArrayList();r.add(first).addll(subset);to_add(r)",
+    "aftercode": "to_add.addAll(subset);"
+    },
+    {
+    "precode": "c = bin_op.apply(b,a);",
+    "aftercode": "c = bin_op.apply(a,b);",
+    },
+    {
+    "precode":"while (Math.abs(x-approx*approx) > epsilon) { "
+    "aftercode": " while (Math.abs(x-approx) > epsilon) {"
+    },
+#Requirement:
+1.Provide generated mutants directly
+2.A mutation can only occur on one line
+3.Your output must be like:
+[
+    {
+        "id":,
+        "line":,
+        "precode":"",
+        "filepath":"kk",
+        "aftercode":""
+    }
+]
+Where "id" stand for mutant serial number,"Line" represent the line number of the mutated,"precode" represent the line of code before mutation and it can't be empty,"aftercode" represent the line of code after mutation
+4.Prohibit generating the exact same mutants
+5.all write in a json file

@@ -1,1 +1,45 @@
-# pyllmut
+# PyLLMut
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Docs](https://readthedocs.org/projects/pyllmut/badge/?version=latest)](https://pyllmut.readthedocs.io/en/latest/)
+![Status](https://img.shields.io/badge/Status-Experimental-orange)
+![Research](https://img.shields.io/badge/Research-Driven-lightgrey)
+![Open Source](https://img.shields.io/badge/Open%20Source-Yes-brightgreen)
+
+## Introduction
+
+PyLLMut—pronounced "Pill Moot" (/pɪl muːt/)—is 
+a research-based LLM-driven mutant generator library 
+for Python. It uses Large Language Models (LLMs) as its backend to 
+generate mutants for a given Python module.
+The current version of PyLLMut 
+supports only `gpt-4o-mini` through its API. 
+We plan to add support for more models, 
+such as `DeepSeek`.
+
+## Documentation  
+
+Full documentation is available at
+[PyLLMut Documentation](https://pyllmut.readthedocs.io).  
+
+## Installation  
+
+To install PyLLMut, follow the instructions in the 
+[Installation Guide](https://pyllmut.readthedocs.io/user/install).  
+
+## Usage  
+
+For a quick example of how to use PyLLMut, refer to the 
+[Quick Start Guide](https://pyllmut.readthedocs.io/user/start).  
+
+## API Reference  
+
+For details on PyLLMut's available API, refer to the 
+[API Reference](https://pyllmut.readthedocs.io/api/generator).  
+
+## Acknowledgments  
+
+PyLLMut is a research-based project, inspired by the study 
+[On the Use of Large Language Models in 
+Mutation Testing](https://arxiv.org/abs/2406.09843), which was 
+originally for Java.

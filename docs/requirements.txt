@@ -1,0 +1,3 @@
+mkdocstrings[python]  # For api pages
+mkdocs-material  # For the theme
+pymdown-extensions  # For syntax highlighting
