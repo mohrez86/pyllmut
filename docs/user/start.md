@@ -1,6 +1,6 @@
 # Quick Start
 
-The [examples](https://github.com/mohrez86/pyllmut/examples)
+The [examples](https://github.com/mohrez86/pyllmut/tree/main/examples)
 directory includes a simple example of using
 PyLLMut. This page provides step-by-step instructions for
 running this example.
@@ -9,7 +9,7 @@ running this example.
 
 As shown in Figure 1,
 *Triangle Area*, in the
-[examples/triangle_area](https://github.com/mohrez86/pyllmut/examples/triangle_area)
+[examples/triangle_area](https://github.com/mohrez86/pyllmut/tree/main/examples/triangle_area)
 directory, is a simple project with two packages:
 `code` and `tests`.
 The `code` package contains the project’s source code,
@@ -136,7 +136,7 @@ if len(valid_mutants) > 0:
 
 You can also find this code in the
 [examples/pyllmut_triangle_area.py
-](https://github.com/mohrez86/pyllmut/examples/pyllmut_triangle_area.py)
+](https://github.com/mohrez86/pyllmut/blob/main/examples/pyllmut_triangle_area.py)
 file and run it using the following steps:
 
 1. Navigate to the `examples` directory, created in the previous steps:
