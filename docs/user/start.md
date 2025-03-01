@@ -77,9 +77,10 @@ your choice (e.g., your home directory):
     cd ~/pyllmut_examples
     ```
    
-4. Set up a Python virtual environment. This step is optional,
-but it is recommended to create a dedicated Python environment
-for each project.
+4. Create a Python virtual environment using the following command.
+   On some machines (e.g., MacBooks), you may need to use `python3` instead of `python`.
+   Note that creating a Python virtual environment is optional in this example,
+   but it is recommended to set up a dedicated Python environment for each project.
 
     ```bash
     python -m venv env
