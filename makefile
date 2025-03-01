@@ -2,6 +2,7 @@
 
 dev:
 	python -m pip install -r requirements.txt
+	python -m pip install -r docs/requirements.txt
 	python -m pip install -e .
 
 tests:
