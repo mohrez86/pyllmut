@@ -1,6 +1,6 @@
 # PyLLMut
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.txt)
 [![Docs](https://readthedocs.org/projects/pyllmut/badge/?version=latest)](https://pyllmut.readthedocs.io/en/latest/)
 ![Status](https://img.shields.io/badge/Status-Experimental-orange)
 ![Research](https://img.shields.io/badge/Research-Driven-lightgrey)

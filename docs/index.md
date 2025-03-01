@@ -1,10 +1,9 @@
 # PyLLMut Documentation
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/mohrez86/pyllmut/blob/main/LICENSE.txt)
 ![Status](https://img.shields.io/badge/Status-Experimental-orange)
 ![Research](https://img.shields.io/badge/Research-Driven-lightgrey)
-![Open Source](https://img.shields.io/badge/Open%20Source-Yes-brightgreen)
-[![GitHub stars](https://img.shields.io/github/stars/mohrez86/pyllmut?style=social)](https://github.com/mohrez86/pyllmut/stargazers)
+[![Open Source](https://img.shields.io/badge/Open%20Source-Yes-brightgreen)](https://github.com/mohrez86/pyllmut)
 
 ## Introduction
 
