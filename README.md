@@ -25,17 +25,17 @@ Full documentation is available at
 ## Installation  
 
 To install PyLLMut, follow the instructions in the 
-[Installation Guide](https://pyllmut.readthedocs.io/user/install).  
+[Installation Guide](https://pyllmut.readthedocs.io/en/latest/user/install).  
 
 ## Usage  
 
 For a quick example of how to use PyLLMut, refer to the 
-[Quick Start Guide](https://pyllmut.readthedocs.io/user/start).  
+[Quick Start Guide](https://pyllmut.readthedocs.io/en/latest/user/start).  
 
 ## API Reference  
 
 For details on PyLLMut's available API, refer to the 
-[API Reference](https://pyllmut.readthedocs.io/api/generator).  
+[API Reference](https://pyllmut.readthedocs.io/en/latest/api/generator).  
 
 ## Acknowledgments  
 
