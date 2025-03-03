@@ -1,4 +1,4 @@
-site_name: PyLLMut
+site_name: PyLLMut Documentation
 
 nav:
   - Home: index.md
@@ -11,6 +11,8 @@ nav:
       - Mutant Info: api/mutant_info.md
       - Mutant Type (Enum): api/mutant_type.md
 
+repo_url: https://github.com/mohrez86/pyllmut
+repo_name: mohrez86/pyllmut
 
 #theme: readthedocs
 theme:
@@ -20,10 +22,10 @@ theme:
     - navigation.tabs
     - navigation.instant
     - navigation.sections  # Adds collapsible sub-sections in the sidebar
-#    - toc.integrate  # Moves the table of contents to the sidebar
     - content.code.copy
-#    - content.code.annotate  # Adds code annotation tooltips
-#    - content.action.edit  # Adds an "Edit this page" button if using GitHub/GitLab
+    - navigation.top
+  icon:
+    repo: fontawesome/brands/github
 
 markdown_extensions:
   - pymdownx.highlight
