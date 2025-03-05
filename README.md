@@ -5,7 +5,7 @@
 ![Status](https://img.shields.io/badge/Status-Experimental-orange)
 ![Research](https://img.shields.io/badge/Research-Driven-lightgrey)
 ![Open Source](https://img.shields.io/badge/Open%20Source-Yes-brightgreen)
-[![Tests](https://github.com/mohrez86/gci_ply/actions/workflows/tests-conda.yml/badge.svg)](https://github.com/mohrez86/gci_ply/actions/workflows/tests-conda.yml)
+[![Tests](https://github.com/mohrez86/pyllmut/actions/workflows/tests-conda.yml/badge.svg)](https://github.com/mohrez86/pyllmut/actions/workflows/tests-conda.yml)
 
 ## Introduction
 
