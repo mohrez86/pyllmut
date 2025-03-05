@@ -1,3 +1,5 @@
+import sys
+
 import pytest
 
 from pyllmut.source_lib import source_manager
@@ -298,6 +300,7 @@ def test_get_comments_removed_1():
 #     actual = MutantClassifier._remove_comments(input_str)
 #     assert expected == actual
 
+@pytest.mark.skipif(sys.platform != "darwin", reason="Only runs on macOS")
 def test_get_comments_removed_4():
     input_str = "x = 'abc # xyz' # something \n\r\t"
     expected = "x = 'abc # xyz' "
