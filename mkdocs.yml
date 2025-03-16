@@ -10,6 +10,8 @@ nav:
       - Mutation Report: api/mutation_report.md
       - Mutant Info: api/mutant_info.md
       - Mutant Type (Enum): api/mutant_type.md
+      - Prompt Info: api/prompt_info.md
+      - Response Info: api/response_info.md
 
 repo_url: https://github.com/mohrez86/pyllmut
 repo_name: mohrez86/pyllmut
