@@ -8,6 +8,10 @@ class MutantBuilder:
 
     def __init__(
             self,
+            prompt_content: str,
+            response_content: str,
+            sent_token_count: int,
+            received_token_count: int,
             module_content: str,
             line_number: int,
             pre_code_model: str,
@@ -17,11 +21,19 @@ class MutantBuilder:
         Initializes the object.
 
         Args:
+            prompt_content (str): The content of the prompt for sent to the model.
+            response_content (str): The content of the response received from the model.
+            sent_token_count (int): The number of tokens sent in the prompt.
+            received_token_count (int): The number of tokens received in the response.
             module_content (str): The content of the module as a string.
             line_number (int): The line number in the module to apply the mutation.
             pre_code_model (str): The code line content before the mutation, returned by the model.
             after_code_model (str): The code line content after the mutation, returned by the model.
         """
+        self._prompt_content = prompt_content
+        self._response_content = response_content
+        self._sent_token_count = sent_token_count
+        self._received_token_count = received_token_count
         self._module_content = module_content
         self._line_number = line_number
         self._pre_code_model = pre_code_model
@@ -64,14 +76,18 @@ class MutantBuilder:
         diff_content = "\n".join(diff)
 
         mutant = MutantInfo(
-            self._module_content,
-            mutated_module_content,
-            diff_content,
-            self._line_number,
-            self._pre_code_model,
-            self._after_code_model,
-            pre_code_refined,
-            after_code_refined
+            prompt_content=self._prompt_content,
+            original_module_content=self._module_content,
+            line_number=self._line_number,
+            sent_token_count=self._sent_token_count,
+            response_content=self._response_content,
+            received_token_count=self._received_token_count,
+            mutated_module_content=mutated_module_content,
+            diff_content=diff_content,
+            pre_code_model= self._pre_code_model,
+            after_code_model=self._after_code_model,
+            pre_code_refined=pre_code_refined,
+            after_code_refined=after_code_refined
         )
 
         return mutant
