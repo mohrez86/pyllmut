@@ -9,14 +9,20 @@ Ensure you have met the following requirements before you begin:
 
 ## Installing PyLLMut Library
 
-Run the following command to install PyLLMut
-in your Python environment:
+Run the following command to install PyLLMut from 
+[PyPI](https://pypi.org/project/PyLLMut/):
+
+```bash
+pip install pyllmut
+```
+
+To install the latest development version, install it directly from GitHub:
 
 ```bash
 pip install git+https://github.com/mohrez86/pyllmut
 ```
 
-Running this command installs the latest version
+Running this second command installs the latest version
 of PyLLMut available on the main branch of
 [its GitHub repository](https://github.com/mohrez86/pyllmut).
 
