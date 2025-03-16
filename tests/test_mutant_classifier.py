@@ -17,9 +17,13 @@ def test_classifier_1():
     }
 
     mutant = mutant_manager.get_mutant(
-        module_content,
-        line_number,
-        mutant_dict
+        prompt_content="Dummy prompt",
+        response_content="Dummy response",
+        sent_token_count=-1,
+        received_token_count=-1,
+        module_content=module_content,
+        line_number=line_number,
+        mutant_dict=mutant_dict
     )
 
     assert mutant.get_mutant_type() == MutantType.UNKNOWN
@@ -40,9 +44,13 @@ def test_classifier_2():
     }
 
     mutant = mutant_manager.get_mutant(
-        module_content,
-        line_number,
-        mutant_dict
+        prompt_content="Dummy prompt",
+        response_content="Dummy response",
+        sent_token_count=-1,
+        received_token_count=-1,
+        module_content=module_content,
+        line_number=line_number,
+        mutant_dict=mutant_dict
     )
 
     assert mutant.get_mutant_type() == MutantType.UNKNOWN

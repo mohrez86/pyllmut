@@ -27,11 +27,23 @@ def func_1(a, b):
      d = a - b
      return c, d"""
 
-    mutant = mutant_manager.get_mutant(module_content, line_number, mutant_dict)
+    mutant = mutant_manager.get_mutant(
+        prompt_content="Dummy prompt",
+        response_content="Dummy response",
+        sent_token_count=-1,
+        received_token_count=-1,
+        module_content=module_content,
+        line_number=line_number,
+        mutant_dict=mutant_dict
+    )
     assert mutant.get_diff_content() == expected_mutant_diff
     assert mutant.get_line_number() == line_number
     assert mutant.get_pre_code_model() == mutant_dict["pre_code"]
     assert mutant.get_after_code_model().strip() == mutant_dict["after_code"].strip()
+    assert mutant.get_prompt_content() == "Dummy prompt"
+    assert mutant.get_response_content() == "Dummy response"
+    assert mutant.get_sent_token_count() == -1
+    assert mutant.get_received_token_count() == -1
 
 
 def test_get_mutant_wrong_pre_code_report():
@@ -63,11 +75,23 @@ def test_get_mutant_wrong_pre_code_report():
 -
 +var1 = 'def'"""
 
-    mutant = mutant_manager.get_mutant(module_content, line_number, mutant_dict)
+    mutant = mutant_manager.get_mutant(
+        prompt_content="Dummy prompt",
+        response_content="Dummy response",
+        sent_token_count=-1,
+        received_token_count=-1,
+        module_content=module_content,
+        line_number=line_number,
+        mutant_dict=mutant_dict
+    )
     assert mutant.get_diff_content() == expected_mutant_diff
     assert mutant.get_line_number() == line_number
     assert mutant.get_pre_code_model() == mutant_dict["pre_code"]
     assert mutant.get_after_code_model().strip() == mutant_dict["after_code"].strip()
+    assert mutant.get_prompt_content() == "Dummy prompt"
+    assert mutant.get_response_content() == "Dummy response"
+    assert mutant.get_sent_token_count() == -1
+    assert mutant.get_received_token_count() == -1
 
 
 def test_classify_mutants_duplicates_1():
@@ -89,8 +113,24 @@ def func_1(a, b):
         "after_code": "    c = a - b # something else"
     }
 
-    mutant_a = mutant_manager.get_mutant(module_content, line_number, mutant_dict_a)
-    mutant_b = mutant_manager.get_mutant(module_content, line_number, mutant_dict_b)
+    mutant_a = mutant_manager.get_mutant(
+        prompt_content="Dummy prompt",
+        response_content="Dummy response",
+        sent_token_count=-1,
+        received_token_count=-1,
+        module_content=module_content,
+        line_number=line_number,
+        mutant_dict=mutant_dict_a
+    )
+    mutant_b = mutant_manager.get_mutant(
+        prompt_content="Dummy prompt",
+        response_content="Dummy response",
+        sent_token_count=-1,
+        received_token_count=-1,
+        module_content=module_content,
+        line_number=line_number,
+        mutant_dict=mutant_dict_b
+    )
 
     mutant_list = [mutant_a, mutant_b]
     mutant_manager.classify_mutant_list(mutant_list)
@@ -119,8 +159,24 @@ def func_1(a, b):
         "after_code": '    c = "abc # xyz" # something'
     }
 
-    mutant_a = mutant_manager.get_mutant(module_content, line_number, mutant_dict_a)
-    mutant_b = mutant_manager.get_mutant(module_content, line_number, mutant_dict_b)
+    mutant_a = mutant_manager.get_mutant(
+        prompt_content="Dummy prompt",
+        response_content="Dummy response",
+        sent_token_count=-1,
+        received_token_count=-1,
+        module_content=module_content,
+        line_number=line_number,
+        mutant_dict=mutant_dict_a
+    )
+    mutant_b = mutant_manager.get_mutant(
+        prompt_content="Dummy prompt",
+        response_content="Dummy response",
+        sent_token_count=-1,
+        received_token_count=-1,
+        module_content=module_content,
+        line_number=line_number,
+        mutant_dict=mutant_dict_b
+    )
 
     mutant_list = [mutant_a, mutant_b]
     mutant_manager.classify_mutant_list(mutant_list)
@@ -142,7 +198,15 @@ def test_classify_mutants_wrong_pre_code_report():
 
 """
 
-    mutant = mutant_manager.get_mutant(module_content, line_number, mutant_dict)
+    mutant = mutant_manager.get_mutant(
+        prompt_content="Dummy prompt",
+        response_content="Dummy response",
+        sent_token_count=-1,
+        received_token_count=-1,
+        module_content=module_content,
+        line_number=line_number,
+        mutant_dict=mutant_dict
+    )
     mutant_list = [mutant]
     mutant_manager.classify_mutant_list(mutant_list)
     assert len([x for x in mutant_list if x.get_mutant_type() == MutantType.WRONG_REPORT]) == 1
