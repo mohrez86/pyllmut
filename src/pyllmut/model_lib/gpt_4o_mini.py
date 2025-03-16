@@ -1,22 +1,23 @@
 from typing import Optional
-
 from openai import OpenAI
 from typing_extensions import override
-
 from .model_base import ModelBase
+from .model_response import ModelResponse
 
 
 class Gpt4oMini(ModelBase):
     """A wrapper class for interacting with the GPT-4o Mini model."""
 
-    def __init__(self, api_key: Optional[str] = None):
+    def __init__(self, timeout_seconds: int, api_key: Optional[str] = None):
         """Initializes the Gpt4oMini model instance.
 
         Args:
+            timeout_seconds: The number of seconds to wait before timing out the request.
             api_key: An optional API key for authentication. If not provided,
                 the default OpenAI client configuration is used.
         """
         self._model_name = "gpt-4o-mini"
+        self._timeout_seconds = timeout_seconds
         self._api_key = api_key
 
     @override
@@ -24,14 +25,16 @@ class Gpt4oMini(ModelBase):
         return self._model_name
 
     @override
-    def invoke_prompt(self, prompt: str) -> str:
-        """Sends a prompt to the model and returns the response.
+    def invoke_prompt(self, prompt: str) -> ModelResponse:
+        """Sends a prompt to the model and returns the response as a ModelResponse object.
 
         Args:
             prompt: The input prompt string to be processed by the model.
 
         Returns:
-            str: The generated response from the model.
+            ModelResponse: An object containing the model's response text,
+            the number of input tokens (sent tokens),
+            and the number of output tokens (received tokens).
 
         Raises:
             openai.OpenAIError: If there is an error during API interaction.
@@ -39,16 +42,19 @@ class Gpt4oMini(ModelBase):
         client = OpenAI() if self._api_key is None else OpenAI(api_key=self._api_key)
 
         completion = client.chat.completions.create(
-            timeout=10,  # Set timeout in seconds
+            timeout=self._timeout_seconds,
             model=self._model_name,
             messages=[
                 # {"role": "system", "content": "You are an expert in software engineering and programming. Your task is to assist with mutation analysis by generating mutants for given programs. Mutants are modified versions of a program created by making small syntactic changes to test the effectiveness of software tests."},
                 {"role": "system", "content": "You are a helpful assistant."},
-                {
-                    "role": "user",
-                    "content": prompt
-                }
+                {"role": "user", "content": prompt}
             ]
         )
 
-        return completion.choices[0].message.content
+        response_text = completion.choices[0].message.content
+        sent_tokens_count = completion.usage.prompt_tokens
+        received_tokens_count = completion.usage.completion_tokens
+
+        model_response = ModelResponse(response_text, sent_tokens_count, received_tokens_count)
+
+        return model_response
