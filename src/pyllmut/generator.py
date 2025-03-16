@@ -1,9 +1,13 @@
 import logging
-from typing import List, Optional
+from typing import List, Optional, Tuple
+
+import openai
 
 from .model_lib import model_manager
 from .mutant_lib import mutant_manager
 from .mutant_lib.mutant_info import MutantInfo
+from .mutant_lib.prompt_info import PromptInfo
+from .mutant_lib.response_info import ResponseInfo
 from .mutation_report import MutationReport
 from .prompt_lib import prompt_manager
 from .response_lib import response_manager
@@ -22,7 +26,8 @@ class MutantGenerator:
             self,
             module_content: str,
             line_number_list: Optional[List[int]] = None,
-            mutants_per_line_count: int = 1
+            mutants_per_line_count: int = 1,
+            timeout_seconds: int = 10
     ):
         """
         Initializes the MutantGenerator.
@@ -32,11 +37,12 @@ class MutantGenerator:
             line_number_list (Optional[List[int]]): List of line numbers to generate mutants for.
                 If None, mutants will be generated for all code lines.
             mutants_per_line_count (int): Desired number of mutants to generate per line.
-                Must be greater than 0. However, note that the LLM model may not always comply
+                Must be greater than 0. However, note that the LLM may not always comply
                 with this number, but it usually does.
+            timeout_seconds (int): Timeout in seconds for generating mutants. Must be greater than 0.
 
         Raises:
-            AssertionError: If mutants_per_line_count is not greater than 0.
+            AssertionError: If mutants_per_line_count or timeout_seconds is not greater than 0.
         """
         self._module_content = module_content
         self._line_number_list = line_number_list
@@ -47,6 +53,12 @@ class MutantGenerator:
 
         self._mutants_per_line_count = mutants_per_line_count
 
+        assert (
+                timeout_seconds > 0
+        ), "timeout_seconds must be greater than 0"
+
+        self._timeout_seconds = timeout_seconds
+
     def generate(self) -> MutationReport:
         """
         Generates mutants for the module and returns a MutationReport.
@@ -56,6 +68,8 @@ class MutantGenerator:
             MutationReport: An object containing a list of generated MutantInfo objects.
         """
         module_mutant_list = []
+        module_timeout_info_list = []
+        module_bad_response_info_list = []
 
         if self._line_number_list is None:
             self._line_number_list = source_manager.get_module_code_line_list(self._module_content)
@@ -72,16 +86,30 @@ class MutantGenerator:
             #  than requested, we return the extras too.
             #  If fewer are generated, we return all the mutants produced without
             #  attempting to generate additional ones.
-            line_mutant_list = self._generate_mutant_list(line_number)
+            (
+                line_mutant_list,
+                line_timeout_info,
+                line_bad_response_info
+            ) = self._generate_mutant_list(line_number)
+
             module_mutant_list += line_mutant_list
+
+            if line_timeout_info is not None:
+                module_timeout_info_list.append(line_timeout_info)
+
+            if line_bad_response_info is not None:
+                module_bad_response_info_list.append(line_bad_response_info)
 
         mutant_manager.classify_mutant_list(module_mutant_list)
 
-        mutation_report = MutationReport(module_mutant_list)
+        mutation_report = MutationReport(module_mutant_list, module_timeout_info_list, module_bad_response_info_list)
 
         return mutation_report
 
-    def _generate_mutant_list(self, line_number: int) -> List[MutantInfo]:
+    def _generate_mutant_list(
+            self,
+            line_number: int
+    ) -> Tuple[List[MutantInfo], Optional[PromptInfo], Optional[ResponseInfo]]:
         """
         Generates mutants for a specific line in the Python module.
 
@@ -95,19 +123,22 @@ class MutantGenerator:
         # We only generate mutants for code lines.
         if not source_manager.is_code_line(self._module_content, line_number):
             logger.info(f"Line {line_number} is not a code line, and thus, no mutants are generated for it.")
-            return []
+            return [], None, None
 
         code_line_context = source_manager.get_code_line_context(
             self._module_content, line_number
         )
         code_line = source_manager.get_code_line(self._module_content, line_number)
-
-        prompt = prompt_manager.get_prompt(
+        prompt_content = prompt_manager.get_prompt(
             code_line_context, self._mutants_per_line_count, code_line
         )
 
-        model = model_manager.get_model_gpt_4o_mini()
-        result_content = model.invoke_prompt(prompt)
+        model = model_manager.get_model_gpt_4o_mini(self._timeout_seconds)
+        try:
+            model_response = model.invoke_prompt(prompt_content)
+        except openai.APITimeoutError:
+            timeout_info = PromptInfo(prompt_content, self._module_content, line_number)
+            return [], timeout_info, None
 
         # TODO: Parsing the result can go wrong.
         #  Maybe the model did not return a json list.
@@ -119,18 +150,30 @@ class MutantGenerator:
         #  I think OpenAI supports it.
         try:
             mutant_dict_list = response_manager.extract_mutant_dict_list(
-                result_content
+                model_response.get_response_content()
             )
         except ValueError:
-            mutant_dict_list = []
+            bad_response_info = ResponseInfo(
+                prompt_content,
+                self._module_content,
+                line_number,
+                model_response.get_sent_token_count(),
+                model_response.get_response_content(),
+                model_response.get_received_token_count()
+            )
+            return [], None, bad_response_info
 
         mutant_list = []
         for mutant_dict in mutant_dict_list:
             mutant = mutant_manager.get_mutant(
+                prompt_content,
+                model_response.get_response_content(),
+                model_response.get_sent_token_count(),
+                model_response.get_received_token_count(),
                 self._module_content,
                 line_number,
                 mutant_dict,
             )
             mutant_list.append(mutant)
 
-        return mutant_list
+        return mutant_list, None, None
