@@ -6,6 +6,7 @@ dev:
 
 dev_docs:
 	python -m pip install -r docs/requirements.txt
+	python -m pip install -e .
 
 tests:
 	python -m pytest tests
