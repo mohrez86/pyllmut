@@ -1,6 +1,7 @@
 # PyLLMut Documentation
 
 [![PyPI version](https://badge.fury.io/py/pyllmut.svg)](https://badge.fury.io/py/pyllmut)
+[![PyPI Downloads](https://static.pepy.tech/badge/pyllmut)](https://pepy.tech/projects/pyllmut)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/mohrez86/pyllmut/blob/main/LICENSE.txt)
 ![Status](https://img.shields.io/badge/Status-Experimental-orange)
 ![Research](https://img.shields.io/badge/Research-Driven-lightgrey)
