@@ -26,9 +26,9 @@ Running this second command installs the latest version
 of PyLLMut available on the main branch of
 [its GitHub repository](https://github.com/mohrez86/pyllmut).
 
-## OpenAI API Key
+## Setting Up Your LLM API Key
 
-PyLLMut needs an OpenAI API key to use LLM models. 
+PyLLMut needs an OpenAI API key to use LLMs. 
 Follow these steps to create and add a key to your environment:
 
 1. Visit the [OpenAI website](https://openai.com) 
