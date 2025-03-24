@@ -1,7 +1,8 @@
 # PyLLMut Changelog
 
-## Unreleased
+## PyLLMut 0.3.0
 
+- Update test workflows to support multiple OS and Python versions.
 - Revise documentation.
 
 ## PyLLMut 0.2.0
