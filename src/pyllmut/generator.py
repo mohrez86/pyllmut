@@ -3,6 +3,7 @@ from typing import List, Optional, Tuple
 
 import openai
 
+from .model_lib.model_type import ModelType
 from .model_lib import model_manager
 from .mutant_lib import mutant_manager
 from .mutant_lib.mutant_info import MutantInfo
@@ -27,7 +28,8 @@ class MutantGenerator:
             module_content: str,
             line_number_list: Optional[List[int]] = None,
             mutants_per_line_count: int = 1,
-            timeout_seconds: int = 10
+            timeout_seconds_per_line: int = 10,
+            model_type: ModelType = ModelType.GPT4oMini
     ):
         """
         Initializes the MutantGenerator.
@@ -37,35 +39,35 @@ class MutantGenerator:
             line_number_list (Optional[List[int]]): List of line numbers to generate mutants for.
                 If None, mutants will be generated for all code lines.
             mutants_per_line_count (int): Desired number of mutants to generate per line.
-                Must be greater than 0. However, note that the LLM may not always comply
+                It must be greater than 0. However, note that the LLM may not always comply
                 with this number, but it usually does.
-            timeout_seconds (int): Timeout in seconds for generating mutants. Must be greater than 0.
+            timeout_seconds_per_line (int): Timeout in seconds for generating mutants for a line.
+                It must be greater than 0.
+            model_type (ModelType): The LLM model used for mutation generation. Defaults to `GPT4oMini`.
 
         Raises:
-            AssertionError: If mutants_per_line_count or timeout_seconds is not greater than 0.
+            AssertionError: If `mutants_per_line_count` or `timeout_seconds_per_line` is not greater than 0.
         """
         self._module_content = module_content
         self._line_number_list = line_number_list
+        self._model_type = model_type
 
         assert (
             mutants_per_line_count > 0
         ), "mutants_per_line_count must be greater than 0"
-
         self._mutants_per_line_count = mutants_per_line_count
 
         assert (
-                timeout_seconds > 0
-        ), "timeout_seconds must be greater than 0"
-
-        self._timeout_seconds = timeout_seconds
+                timeout_seconds_per_line > 0
+        ), "timeout_seconds_per_line must be greater than 0"
+        self._timeout_seconds_per_line = timeout_seconds_per_line
 
     def generate(self) -> MutationReport:
         """
         Generates mutants for the module and returns a MutationReport.
-        If no specific line numbers are provided, mutants are generated for all code lines.
 
         Returns:
-            MutationReport: An object containing a list of generated MutantInfo objects.
+            MutationReport: An object containing the mutation generation results.
         """
         module_mutant_list = []
         module_timeout_info_list = []
@@ -79,13 +81,11 @@ class MutantGenerator:
                 f"LLM is generating {self._mutants_per_line_count} mutant(s) for line {line_number}."
             )
 
-            # TODO: `_mutants_per_line_count` is used by the model, and thus,
-            #  there is no guarantee that the model complies with it. We need to check
-            #  the number of generated mutants ourselves. If the count does not match
-            #  our request, we must take action. Currently, if more mutants are generated
-            #  than requested, we return the extras too.
-            #  If fewer are generated, we return all the mutants produced without
-            #  attempting to generate additional ones.
+            # `_mutants_per_line_count` serves as a guideline for the model,
+            # but it is not strictly enforced.
+            # The model may generate more or fewer mutants than specified.
+            # It is the responsibility of PyLLMut's client to check
+            # the count and take appropriate action if needed.
             (
                 line_mutant_list,
                 line_timeout_info,
@@ -133,21 +133,19 @@ class MutantGenerator:
             code_line_context, self._mutants_per_line_count, code_line
         )
 
-        model = model_manager.get_model_gpt_4o_mini(self._timeout_seconds)
+        model = model_manager.get_model(
+            self._model_type,
+            self._timeout_seconds_per_line
+        )
+
+        logger.info(f"PyLLMut is using model {model}.")
+
         try:
             model_response = model.invoke_prompt(prompt_content)
         except openai.APITimeoutError:
             timeout_info = PromptInfo(prompt_content, self._module_content, line_number)
             return [], timeout_info, None
 
-        # TODO: Parsing the result can go wrong.
-        #  Maybe the model did not return a json list.
-        #  For now, we simply ignore the result as if
-        #  the model was not able to generate any mutants
-        #  for the given line number.
-        #  Other strategies can be prompting the model again.
-        #  Or we can ask the model to return result as JSON already.
-        #  I think OpenAI supports it.
         try:
             mutant_dict_list = response_manager.extract_mutant_dict_list(
                 model_response.get_response_content()
