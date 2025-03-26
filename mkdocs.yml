@@ -7,6 +7,7 @@ nav:
       - Quick Start: user/start.md
   - API Reference:
       - Mutant Generator: api/generator.md
+      - ModelType (Enum): api/model_type.md
       - Mutation Report: api/mutation_report.md
       - Mutant Info: api/mutant_info.md
       - Mutant Type (Enum): api/mutant_type.md

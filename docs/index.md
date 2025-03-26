@@ -13,16 +13,16 @@
 PyLLMut—pronounced "Pill Moot" (/pɪl muːt/)—is 
 a research-based LLM-driven mutant generator library 
 for Python. It uses Large Language Models (LLMs) to 
-generate mutants for a given Python module.
+generate mutants for Python programs.
 The current version of PyLLMut 
-supports `gpt-4o-mini` through its API. 
+supports `GPT-4o` and `GPT-4o mini` through their APIs. 
 We plan to add support for more models, 
 such as *DeepSeek-R1*.
 
 !!! tip "PyLLMut has been integrated into [FauxPy](https://fauxpy.readthedocs.io) 🚀"
     [FauxPy](https://fauxpy.readthedocs.io) 
     now supports **LLM-driven mutation-based fault 
-    localization** using *GPT-4o mini*!  
+    localization**!  
     This functionality is the result of 
     integrating PyLLMut into [FauxPy](https://fauxpy.readthedocs.io).
 
@@ -39,20 +39,6 @@ such as *DeepSeek-R1*.
     their mutant generation phase to 
     enhance their results.
 
-### Why `gpt-4o-mini`?
-
-We picked `gpt-4o-mini` for now since 
-it is a cheaper model compared to other 
-OpenAI models, as we are conducting several tests.
-Given the modular structure of PyLLMut, adding 
-support for more models later will not be a problem.
-
-Also, according to a recent study 
-[On the Use of Large Language Models 
-in Mutation Testing](https://arxiv.org/abs/2406.09843), 
-`gpt-4o-mini` performs fairly well considering 
-its lower price.
-
 ### Local Models vs. API
 
 Our first attempt was to use local models, but
@@ -65,8 +51,8 @@ considering the modular nature of PyLLMut.
 
 ## Key Features
 
-- Uses LLMs to generate mutants for Python code.
-- Currently supports `gpt-4o-mini` via API.
+- Uses LLMs to generate mutants for Python programs.
+- Supports `GPT-4o` and `GPT-4o mini`.
 - Future plans: support for more models such as *DeepSeek-R1*.
 
 ## Motivation
