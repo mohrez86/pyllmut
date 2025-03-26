@@ -14,9 +14,9 @@
 PyLLMut—pronounced "Pill Moot" (/pɪl muːt/)—is 
 a research-based LLM-driven mutant generator library 
 for Python. It uses Large Language Models (LLMs) to 
-generate mutants for a given Python module.
+generate mutants for Python programs.
 The current version of PyLLMut 
-supports `gpt-4o-mini` through its API. 
+supports `GPT-4o` and `GPT-4o mini` through their APIs. 
 We plan to add support for more models, 
 such as *DeepSeek-R1*.
 
