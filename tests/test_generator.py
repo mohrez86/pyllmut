@@ -15,6 +15,7 @@ from pprint import pprint
 
 import pytest
 
+from pyllmut import ModelType
 from pyllmut.generator import MutantGenerator
 from pyllmut.mutant_lib.mutant_type import MutantType
 from . import utils
@@ -33,12 +34,34 @@ def test_simple():
     pprint(mutation_report.get_mutant_list())
 
 @pytest.mark.expensive
+def test_simple_gpt_4_o():
+    module_path = utils.get_cookiecutter_1_generate_py_path()
+    module_content = module_path.read_text()
+    line_number_list = [85]
+
+    generator = MutantGenerator(
+        module_content,
+        line_number_list,
+        model_type=ModelType.GPT4o
+    )
+
+    mutation_report = generator.generate()
+    print("\n")
+    pprint(mutation_report.get_mutant_list())
+
+@pytest.mark.expensive
 def test_timeout():
     module_path = utils.get_cookiecutter_1_generate_py_path()
     module_content = module_path.read_text()
     ground_truth_line_list = [85, 339]
 
-    generator = MutantGenerator(module_content, ground_truth_line_list, 30)
+    generator = MutantGenerator(
+        module_content,
+        ground_truth_line_list,
+        mutants_per_line_count=30,
+        timeout_seconds_per_line=3
+    )
+
     mutation_report = generator.generate()
     assert len(mutation_report.get_timeout_info_list()) == 2
     assert len(mutation_report.get_mutant_list()) == 0
