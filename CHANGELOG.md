@@ -1,5 +1,11 @@
 # PyLLMut Changelog
 
+## Unreleased
+
+- Enhance the `MutantGenerator` class to take the model as a parameter.
+- Add support for the `GPT-4o` model.
+- Refactor some modules.
+
 ## PyLLMut 0.3.0
 
 - Update test workflows to support multiple OS and Python versions.
