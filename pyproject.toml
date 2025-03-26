@@ -33,7 +33,7 @@ name = "PyLLMut" # REQUIRED, is the only field that cannot be marked as dynamic.
 #
 # For a discussion on single-sourcing the version, see
 # https://packaging.python.org/guides/single-sourcing-package-version/
-version = "0.3.0" # REQUIRED, although can be dynamic
+version = "0.4.0.dev1" # REQUIRED, although can be dynamic
 
 # This is a one-line description or tagline of what your project does. This
 # corresponds to the "Summary" metadata field:
@@ -143,12 +143,12 @@ dependencies = [
 # issues, where the source is hosted, where to say thanks to the package
 # maintainers, and where to support the project financially. The key is
 # what's used to render the link text on PyPI.
-#[project.urls]
-#"Homepage" = "https://github.com/pypa/sampleproject"
-#"Bug Reports" = "https://github.com/pypa/sampleproject/issues"
+[project.urls]
+"Homepage" = "https://pyllmut.readthedocs.io"
+"Bug Reports" = "https://github.com/mohrez86/pyllmut/issues"
 #"Funding" = "https://donate.pypi.org"
 #"Say Thanks!" = "http://saythanks.io/to/example"
-#"Source" = "https://github.com/pypa/sampleproject/"
+"Source" = "https://github.com/mohrez86/pyllmut"
 
 # The following would provide a command line executable called `sample`
 # which executes the function `main` from this package when invoked.
