@@ -7,7 +7,14 @@ class ModelResponse:
             sent_tokens_count: int,
             received_tokens_count: int
     ):
-        """Initializes a ModelResponse instance."""
+        """
+        Initializes a ModelResponse instance.
+
+        Args:
+            response_text (str): The generated response text.
+            sent_tokens_count (int): The number of tokens sent in the request (input tokens).
+            received_tokens_count (int): The number of tokens received in the response (output tokens).
+        """
         self._response_text = response_text
         self._sent_tokens_count = sent_tokens_count
         self._received_tokens_count = received_tokens_count

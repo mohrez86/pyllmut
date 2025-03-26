@@ -55,6 +55,10 @@ class Gpt4oMini(ModelBase):
         sent_tokens_count = completion.usage.prompt_tokens
         received_tokens_count = completion.usage.completion_tokens
 
-        model_response = ModelResponse(response_text, sent_tokens_count, received_tokens_count)
+        model_response = ModelResponse(
+            response_text,
+            sent_tokens_count,
+            received_tokens_count
+        )
 
         return model_response
