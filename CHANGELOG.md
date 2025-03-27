@@ -1,6 +1,6 @@
 # PyLLMut Changelog
 
-## Unreleased
+##  PyLLMut 0.4.0
 
 - Revise the Quick Start page of the documentation.
 - Enhance the `MutantGenerator` class to take the model as a parameter.
