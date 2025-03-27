@@ -23,6 +23,9 @@ including two test modules:
 which test the `equilateral.py` and `isosceles.py` modules,
 respectively.
 
+In this example, we use PyLLMut to generate
+mutants for `equilateral.py`, shown in Figure 2.
+
 ``` title="Figure 1: Project structure of Triangle Area."
 triangle_area/
 ├── code/
@@ -35,10 +38,7 @@ triangle_area/
     └── test_isosceles.py
 ```
 
-In this example, we use PyLLMut to generate
-mutants for `equilateral.py`, shown in Figure 2.
-
-```Python linenums="1" title="Figure 2: equilateral.py"
+```Python linenums="1" title="Figure 2: Implementation of 'equilateral.py', a function that computes the area of an equilateral triangle."
 import math
 
 
@@ -87,7 +87,7 @@ your choice (e.g., your home directory):
     ```
 
 5. Activate the virtual environment
-created in the previous step (if you created it):
+created in the previous step (if created):
 
     ```bash
     source env/bin/activate
@@ -98,41 +98,47 @@ created in the previous step (if you created it):
 
 ### How to Use PyLLMut
 
-PyLLMut is a Python library that can be used by importing it
-into a Python program and calling its API. Figure 3 shows
-an example of using PyLLMut through its API.
+PyLLMut is a Python library.
+You can use it by importing it
+into a Python program and calling its API.
+The example in Figure 3 demonstrates 
+how to use PyLLMut to generate mutants for a given Python module.
 
-```python linenums="1" title="Figure 3: pyllmut_triangle_area.py"
+```python linenums="1" title="Figure 3: 'pyllmut_triangle_area.py', a script demonstrating how to use PyLLMut to generate mutants for 'equilateral.py'."
+import logging
 from pathlib import Path
 
-import logging
+from pyllmut import MutantGenerator, ModelType
 
 logging.basicConfig(level=logging.INFO)
-
-from pyllmut import MutantGenerator
 
 module_path = "./triangle_area/code/equilateral.py"
 
 module_content = Path(module_path).read_text()
 lines_to_mutate = [7, 10, 11]
 mutants_per_line = 3
+timeout_per_line = 15
+model_type = ModelType.GPT4o
 
 generator = MutantGenerator(
-    module_content,
-    lines_to_mutate,
-    mutants_per_line
+    module_content, lines_to_mutate, mutants_per_line, timeout_per_line, model_type
 )
 mutation_report = generator.generate()
 valid_mutants = mutation_report.get_valid_mutant_list()
 
-print("Number of valid mutants:", len(valid_mutants))
+print(f"\n**Number of valid mutants**: {len(valid_mutants)}")
 
-if len(valid_mutants) > 0:
-    print("Line number:", valid_mutants[0].get_line_number())
-    print("---------")
-    print(valid_mutants[0].get_diff_content())
-    print("---------")
-    print(valid_mutants[0].get_mutated_module_content())
+if valid_mutants:
+    first_mutant = valid_mutants[0]
+
+    print("\nFirst Valid Mutant")
+    print("=" * 20)
+    print(f"**Line number**: {first_mutant.get_line_number()}")
+    print("-" * 20)
+    print("**Diff Content**:\n", first_mutant.get_diff_content())
+    print("-" * 20)
+    print("**Mutated Module Content**:\n", first_mutant.get_mutated_module_content())
+    print("=" * 20)
 ```
 
 You can also find this code in the
@@ -140,95 +146,109 @@ You can also find this code in the
 ](https://github.com/mohrez86/pyllmut/blob/main/examples/pyllmut_triangle_area.py)
 file and run it using the following steps:
 
-1. Navigate to the `examples` directory, created in the previous steps:
+#### Running the Example
+
+1. Navigate to the `examples` directory:
 
     ```bash
     cd ~/pyllmut_examples
     ```
 
-2. Activate the virtual environment
-created in the previous step (if you created it):
+2. Activate the virtual environment (if created):
 
     ```bash
     source env/bin/activate
     ```
    
-3. Run `pyllmut_triangle_area.py` using the following command:
+3. Run `pyllmut_triangle_area.py`:
 
     ```bash
     python pyllmut_triangle_area.py
     ```
 
-#### Details of `pyllmut_triangle_area.py`
+#### Explanation of `pyllmut_triangle_area.py`
 
-In `pyllmut_triangle_area.py` shown in Figure 3:
+The script in Figure 3 follows these steps:
 
-- Line 6 imports the [MutantGenerator](../api/generator.md) class.
-- Lines 14-18 instantiate a `MutantGenerator`
-  object by passing three parameters:
-      1. *Parameter 1:* The content of the module to be mutated. 
-         The variable `module_content`
-         is a string containing the code of `equilateral.py` in Figure 2.
-      2. *Parameter 2:* An optional list of lines for which to generate mutants.
-        The default value for this parameter is `None`, 
-        in which case PyLLMut generates mutants for
-        every code line in the given module.
-        The variable `lines_to_mutate` is a list of three numbers: 
-         7, 10, and 11, meaning we want to generate mutants for
-        these three lines in Figure 2.
-      3. *Parameter 3:* An optional number indicating the number of 
-        mutants to generate for each line. The
-        default value for this parameter is 1.
-        The variable `mutants_per_line` is set to 3, meaning
-        we want PyLLMut to generate three mutants per line.
-- Line 19 calls the `generate()` method of `MutantGenerator`,
-which returns a [MutationReport](../api/mutation_report.md) object.
-- Line 20 retrieves a list of valid mutants generated
-by PyLLMut by calling the `get_valid_mutant_list` method
-form `MutationReport`. Each mutant is a [MutantInfo](../api/mutant_info.md) object.
-- Lines 24-29 print some information from one of the valid mutants
-generated. Specifically, it prints the line number, the mutant as a diff,
-and the mutated code.
+##### Imports
 
-To learn more about the PyLLMut API, refer 
-to the [API Reference](../api/generator.md) page.
+- **Line 1** imports `logging` for debugging and status updates (lines 1 and 6 are optional).
+- **Line 2** imports `Path` from `pathlib` for reading the module file.
+- **Line 4** imports `MutantGenerator` and `ModelType` from PyLLMut.
 
-Figure 4 shows the result of running `pyllmut_triangle_area.py`,
-as demonstrated in Figure 3. Lines 1-6 in Figure 4 shows some logging information,
-which can be turned off by removing lines 3-4 in Figure 3.
+##### Setup and Configuration
 
-```bash linenums="1" title="Figure 4: Result of running pyllmut_triangle_area.py"
+- **Lines 8 and 10** define `module_path` and read its content.
+- **Lines 11-14** specify:
+    - `lines_to_mutate`: A list of line numbers where mutants should be generated (7, 10, and 11).
+    - `mutants_per_line`: The number of mutants to generate for each line (3).
+    - `timeout_per_line`: The mutant generation timeout for each line (15 seconds).
+    - `model_type`: The LLM model used (GPT-4o).
+
+##### Mutation Generation
+
+- **Lines 16-18** initialize a `MutantGenerator` object.
+- **Line 19** calls the `generate()` method, which generates the mutants and returns a `MutationReport` object.
+- **Line 20** retrieves a list of valid mutants using `get_valid_mutant_list()`.
+
+##### Output Processing
+
+- **Line 22** prints the total number of valid mutants PyLLMut generated.
+- **Lines 24-34** print details of the first valid mutant, including:
+    - The mutated line number.
+    - A diff representation of the mutation.
+    - The modified module content.
+
+For more details about PyLLMut’s API, refer to the [API Reference](../api/generator.md) page.
+
+##### Sample Output
+
+Figure 4 shows an example of running `pyllmut_triangle_area.py`.
+Lines 1-9 display logging messages, which can be disabled by removing 
+`logging.basicConfig(...)` in Figure 3.
+
+```bash linenums="1" title="Figure 4: Sample output of running 'pyllmut_triangle_area.py', displaying logging messages and the first valid mutant generated."
 INFO:pyllmut.generator:LLM is generating 3 mutant(s) for line 7.
+INFO:pyllmut.generator:PyLLMut is using model gpt-4o.
 INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
 INFO:pyllmut.generator:LLM is generating 3 mutant(s) for line 10.
+INFO:pyllmut.generator:PyLLMut is using model gpt-4o.
 INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
 INFO:pyllmut.generator:LLM is generating 3 mutant(s) for line 11.
+INFO:pyllmut.generator:PyLLMut is using model gpt-4o.
 INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
-Number of valid mutants: 9
-Line number: 7
----------
---- original
+
+**Number of valid mutants**: 9
+
+First Valid Mutant
+====================
+**Line number**: 7
+--------------------
+**Diff Content**:
+ --- original
 +++ modified
 @@ -4,7 +4,7 @@
  def equilateral_area(a):
      const = math.sqrt(3) / 4
  
 -    if a == 1:
-+    if a != 1:
++    if a == 0:
          return const
  
      term = math.pow(a, 2)
----------
-import math
+--------------------
+**Mutated Module Content**:
+ import math
 
 
 def equilateral_area(a):
     const = math.sqrt(3) / 4
 
-    if a != 1:
+    if a == 0:
         return const
 
     term = math.pow(a, 2)
     area = const * term
     return area
+====================
 ```
