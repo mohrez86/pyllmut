@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Revise the Quick Start page of the documentation.
 - Enhance the `MutantGenerator` class to take the model as a parameter.
 - Add support for the `GPT-4o` model.
 - Refactor some modules.
