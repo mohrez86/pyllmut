@@ -3,7 +3,7 @@
 [![PyPI version](https://badge.fury.io/py/pyllmut.svg)](https://badge.fury.io/py/pyllmut)
 [![PyPI Downloads](https://static.pepy.tech/badge/pyllmut)](https://pepy.tech/projects/pyllmut)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.txt)
-[![Docs](https://readthedocs.org/projects/pyllmut/badge/?version=latest)](https://pyllmut.readthedocs.io/en/latest/)
+[![Docs](https://readthedocs.org/projects/pyllmut/badge/?version=stable)](https://pyllmut.readthedocs.io/en/stable/)
 ![Status](https://img.shields.io/badge/Status-Experimental-orange)
 ![Research](https://img.shields.io/badge/Research-Driven-lightgrey)
 ![Open Source](https://img.shields.io/badge/Open%20Source-Yes-brightgreen)
@@ -28,17 +28,17 @@ Full documentation is available at
 ## Installation  
 
 To install PyLLMut, follow the instructions in the 
-[Installation Guide](https://pyllmut.readthedocs.io/en/latest/user/install).  
+[Installation Guide](https://pyllmut.readthedocs.io/en/stable/user/install).  
 
 ## Usage  
 
 For a quick example of how to use PyLLMut, refer to the 
-[Quick Start Guide](https://pyllmut.readthedocs.io/en/latest/user/start).  
+[Quick Start Guide](https://pyllmut.readthedocs.io/en/stable/user/start).  
 
 ## API Reference  
 
 For details on PyLLMut's available API, refer to the 
-[API Reference](https://pyllmut.readthedocs.io/en/latest/api/generator).  
+[API Reference](https://pyllmut.readthedocs.io/en/stable/api/generator).  
 
 ## Acknowledgments  
 
