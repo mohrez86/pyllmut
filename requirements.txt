@@ -1,4 +1,2 @@
 pytest
-openai~=1.58.1
-mkdocs
-black
+openai>=1.0.0,<2.0.0
