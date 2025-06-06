@@ -1,5 +1,14 @@
 # PyLLMut Changelog
 
+## PyLLMut 0.5.0
+
+- Fix computation of docstring start and end lines for Python 3.7, and add a test for `_is_docstring_line`.
+- Fix `end_lineno` attribute error on Python versions earlier than 3.8. 
+- Relax `openai` dependency constraints.
+- Remove `black` dependency and configuration.
+- Update minimum supported Python version to 3.7.
+- Revise development and documentation dependencies.
+
 ##  PyLLMut 0.4.0
 
 - Revise the Quick Start page of the documentation.
