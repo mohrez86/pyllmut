@@ -33,11 +33,12 @@ class LineContextFinder:
         # if hasattr(func_ast_node, "end_lineno"):
         #     return func_ast_node.end_lineno
 
-        # For Python 3.6 that does not support `func_ast_node.end_lineno`
+        # For Python 3.7 that does not support `func_ast_node.end_lineno`
         ending_line = self._get_function_end_line_legacy(func_ast_node)
 
         # TODO: Remove this. It is only for testing.
-        assert ending_line == func_ast_node.end_lineno
+        if hasattr(func_ast_node, "end_lineno"):
+            assert ending_line == func_ast_node.end_lineno
 
         return ending_line
 
@@ -51,7 +52,7 @@ class LineContextFinder:
         # return node.lineno
 
     def _get_function_end_line_legacy(self, func_ast_node):
-        """For Python 3.6 that does not support `func_ast_node.end_lineno`"""
+        """For Python 3.7 that does not support `func_ast_node.end_lineno`"""
 
         ending_line = -1
         if hasattr(func_ast_node, "__dict__"):

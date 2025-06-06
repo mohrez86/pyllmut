@@ -1,4 +1,6 @@
 import ast
+import sys
+from typing import Tuple
 
 
 class CodeLineChecker:
@@ -23,29 +25,45 @@ class CodeLineChecker:
     def _is_docstring_line(self):
         for node in ast.walk(self._module_ast):
             if self._is_docstring_node(node):
-                start_line = node.lineno
-                end_line = self._get_docstring_node_end_line(node)
+                start_line, end_line = self._get_docstring_range_line(node)
+                # start_line = node.lineno
+                # end_line = self._get_docstring_node_end_line(node)
                 if start_line <= self._line_number <= end_line:
                     return True
         return False
 
     @staticmethod
-    def _get_docstring_node_end_line(node):
-        # TODO: Uncomment this before releasing.
-        # # For Python versions that support `node.end_lineno`
-        # if hasattr(node, "end_lineno"):
-        #     return node.end_lineno
+    def _get_docstring_range_line(node) -> Tuple[int, int]:
+        if sys.version_info[:2] == (3, 7):
+            # For Python 3.7.x
+            end_line = node.lineno
+            docstring_content = node.value.s  # Extract the docstring content
+            start_line = end_line - len(docstring_content.splitlines()) + 1
+        else:
+            # For Python >= 3.8
+            start_line = node.lineno
+            end_line = node.end_lineno
 
-        # TODO: Needs to be checked in Python 3.6
-        # For Python 3.6 that does not support `node.end_lineno`
-        docstring_content = node.value.s  # Extract the docstring content
-        start_line = node.lineno
-        end_line = start_line + len(docstring_content.splitlines()) - 1
+        return start_line, end_line
 
-        # TODO: Remove this. It is only for testing.
-        assert end_line == node.end_lineno
-
-        return end_line
+    # @staticmethod
+    # def _get_docstring_node_end_line(node):
+    #     # TODO: Uncomment this before releasing.
+    #     # # For Python versions that support `node.end_lineno`
+    #     # if hasattr(node, "end_lineno"):
+    #     #     return node.end_lineno
+    #
+    #     # TODO: Needs to be checked in Python 3.6
+    #     # For Python 3.6 that does not support `node.end_lineno`
+    #     docstring_content = node.value.s  # Extract the docstring content
+    #     start_line = node.lineno
+    #     end_line = start_line + len(docstring_content.splitlines()) - 1
+    #
+    #     # TODO: Remove this. It is only for testing.
+    #     if hasattr(node, "end_lineno"):
+    #         assert end_line == node.end_lineno
+    #
+    #     return end_line
 
     @staticmethod
     def _is_docstring_node(node) -> bool:
@@ -60,3 +78,4 @@ class CodeLineChecker:
             return True
 
         return False
+

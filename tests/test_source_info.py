@@ -3,6 +3,8 @@ import sys
 import pytest
 
 from pyllmut.source_lib import source_manager
+
+from pyllmut.source_lib.code_line_checker import CodeLineChecker
 from . import utils
 from .utils import get_cookiecutter_1_generate_py, get_cookiecutter_1_generate_context_dict
 
@@ -344,3 +346,26 @@ def test_get_comments_removed_8():
     expected = "    return project_dir  "
     actual = source_manager.get_comments_removed(module_content, 380, input_str)
     assert expected == actual
+
+def test__is_docstring_line_cookiecutter_1_generate_py():
+    module_ast, module_content = get_cookiecutter_1_generate_py()
+    module_line_list = module_content.splitlines()
+    docstring_line_list = [
+        1,
+        29, 30, 31, 32, 33, 34, 35, 36, 37,
+        49,
+        73, 74, 75, 76, 77, 78, 79, 80, 81,
+        115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134,
+        195,
+        222,
+        232, 233, 234, 235, 236, 237, 238, 239, 240,
+        263, 264, 265, 266, 267, 268, 269, 270, 271
+    ]
+
+    for line_index in range(len(module_line_list)):
+        line_number = line_index + 1
+        code_line_checker = CodeLineChecker(module_content, line_number)
+        if line_number in docstring_line_list:
+            assert code_line_checker._is_docstring_line()
+        else:
+            assert not code_line_checker._is_docstring_line()
