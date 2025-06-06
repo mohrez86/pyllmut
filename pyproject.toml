@@ -33,7 +33,7 @@ name = "PyLLMut" # REQUIRED, is the only field that cannot be marked as dynamic.
 #
 # For a discussion on single-sourcing the version, see
 # https://packaging.python.org/guides/single-sourcing-package-version/
-version = "0.4.0" # REQUIRED, although can be dynamic
+version = "0.5.0" # REQUIRED, although can be dynamic
 
 # This is a one-line description or tagline of what your project does. This
 # corresponds to the "Summary" metadata field:
@@ -54,7 +54,7 @@ readme = "README.md"
 # 'Programming Language' classifiers in this file, 'pip install' will check this
 # and refuse to install the project if the version does not match. See
 # https://packaging.python.org/guides/distributing-packages-using-setuptools/#python-requires
-requires-python = ">=3.6"
+requires-python = ">=3.7"
 
 # This is either text indicating the license for the distribution, or a file
 # that contains the license.
@@ -102,6 +102,8 @@ classifiers = [
   # that you indicate you support Python 3. These classifiers are *not*
   # checked by "pip install". See instead "requires-python" key in this file.
   "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
@@ -117,7 +119,7 @@ classifiers = [
 # For an analysis of this field vs pip's requirements files see:
 # https://packaging.python.org/discussions/install-requires-vs-requirements/
 dependencies = [
-  "openai~=1.58.1",
+  "openai>=1.0.0,<2.0.0",
 ]
 
 # List additional groups of dependencies here (e.g. development
@@ -163,18 +165,18 @@ dependencies = [
 # installed, specify them here.
 package-data = { "pyllmut" = ["prompt_lib/templates/*.template"] }
 
-[tool.black]
-line-length = 88
-target-version = ['py36', 'py37', 'py38', 'py39', 'py310', 'py311', 'py312']
-skip-string-normalization = true  # Keeps single/double quotes as is
-exclude = '''
-(
-    /(
-        | \.git
-        | \.venv
-        | \.env
-        | build
-        | dist
-    )/
-)
-'''
+#[tool.black]
+#line-length = 88
+#target-version = ['py37', 'py38', 'py39', 'py310', 'py311', 'py312']
+#skip-string-normalization = true  # Keeps single/double quotes as is
+#exclude = '''
+#(
+#    /(
+#        | \.git
+#        | \.venv
+#        | \.env
+#        | build
+#        | dist
+#    )/
+#)
+#'''
