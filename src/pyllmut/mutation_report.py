@@ -18,7 +18,7 @@ class MutationReport:
             bad_response_info_list: List[ResponseInfo]
     ):
         """
-        Initializes a MutationReport with a list of generated mutants.
+        Initializes a MutationReport object.
 
         Args:
             mutant_list (List[MutantInfo]): A list of MutantInfo objects representing the generated mutants.
