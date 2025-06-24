@@ -1,12 +1,17 @@
 # PyLLMut Changelog
 
+## PyLLMut 0.6.0
+
+- Fixed a crashing bug in the `source_lib` package related to finding
+  function AST node end lines in Python versions prior to 3.8.
+
 ## PyLLMut 0.5.0
 
-- Fix computation of docstring start and end lines for Python 3.7, and add a test for `_is_docstring_line`.
+- Fix computation of docstring start and end lines for Python 3.7 and add test for `_is_docstring_line`.
 - Fix `end_lineno` attribute error on Python versions earlier than 3.8. 
-- Relax `openai` dependency constraints.
-- Remove `black` dependency and configuration.
-- Update minimum supported Python version to 3.7.
+- Relax `openai` dependency.
+- Remove `black` dependency and config.
+- Updated minimum supported Python version to 3.7.
 - Revise development and documentation dependencies.
 
 ##  PyLLMut 0.4.0
