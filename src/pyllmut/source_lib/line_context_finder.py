@@ -28,49 +28,42 @@ class LineContextFinder:
     def _get_function_end_line(self, func_ast_node) -> int:
         """Calculates the last line of a function."""
 
-        # TODO: Uncomment this before releasing.
-        # # For Python versions that support `func_ast_node.end_lineno`
-        # if hasattr(func_ast_node, "end_lineno"):
-        #     return func_ast_node.end_lineno
+        # For Python versions that support `func_ast_node.end_lineno`
+        if hasattr(func_ast_node, "end_lineno"):
+            return func_ast_node.end_lineno
 
         # For Python 3.7 that does not support `func_ast_node.end_lineno`
         ending_line = self._get_function_end_line_legacy(func_ast_node)
 
-        # TODO: Remove this. It is only for testing.
-        if hasattr(func_ast_node, "end_lineno"):
-            assert ending_line == func_ast_node.end_lineno
+        # if hasattr(func_ast_node, "end_lineno"):
+        #     assert ending_line == func_ast_node.end_lineno
 
         return ending_line
-
-        # if node.body:
-        #     last_node = node.body[-1]
-        #     if isinstance(last_node, ast.Expr) and isinstance(last_node.value, ast.Str):
-        #         # Skip the docstring and get the actual last line
-        #         if len(node.body) > 1:
-        #             last_node = node.body[-2]
-        #     return last_node.lineno
-        # return node.lineno
 
     def _get_function_end_line_legacy(self, func_ast_node):
-        """For Python 3.7 that does not support `func_ast_node.end_lineno`"""
+        """
+        For Python 3.7 that does not support `func_ast_node.end_lineno`.
+        The computed end line by this function is an approximation.
+        """
+        line_end_max = -1
 
-        ending_line = -1
         if hasattr(func_ast_node, "__dict__"):
-            all_att = copy(func_ast_node.__dict__)
-
-            for key, att_instance in all_att.items():
+            all_att = func_ast_node.__dict__
+            for att in all_att:
+                att_instance = func_ast_node.__getattribute__(att)
                 if isinstance(att_instance, list):
                     for sub_att in att_instance:
-                        ending_line = max(self._get_function_end_line_legacy(sub_att), ending_line)
+                        line_end_max = max(self._get_function_end_line_legacy(sub_att), line_end_max)
                 else:
-                    ending_line = max(self._get_function_end_line_legacy(att_instance), ending_line)
+                    line_end_max = max(
+                        self._get_function_end_line_legacy(att_instance), line_end_max
+                    )
                 if hasattr(att_instance, "lineno"):
-                    ending_line = max(att_instance.lineno, ending_line)
+                    line_end_max = max(att_instance.lineno, line_end_max)
 
         if hasattr(func_ast_node, "lineno"):
-            ending_line = max(func_ast_node.lineno, ending_line)
-
-        return ending_line
+            line_end_max = max(func_ast_node.lineno, line_end_max)
+        return line_end_max
 
     def _get_function_info_dict_list(self) -> List[Dict]:
         """Collects information about every function within the module."""
